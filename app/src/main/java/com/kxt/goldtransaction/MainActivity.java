@@ -53,9 +53,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         socketClient.setConnectionTimeout(1000 * 15);
-        socketClient.setHeartBeatInterval(1000);
-        socketClient.setRemoteNoReplyAliveTimeout(1000 *5);
+//        socketClient.setHeartBeatInterval(1000);//害我三秒掉线
+//        socketClient.setRemoteNoReplyAliveTimeout(1000 *5);//害我五秒掉线
         socketClient.setCharsetName("GBK");
         socketClient.connect();
     }
+    
+    
 }

@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private SocketClient socketClient;
     private String url="117.141.138.101";
     private  int prot=41901;
+    String aaaaa="";
+    String bbbbb="1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,31 +25,37 @@ public class MainActivity extends AppCompatActivity {
         initSocket();
     }
 
+    
     private void initSocket() {
         socketClient = new SocketClient(url, prot);
         socketClient.registerSocketDelegate(new SocketClient.SocketDelegate(){
             @Override
             public void onConnected(SocketClient client) {
                 Log.d("socketTO","onConnected.......");
-                socketClient.send("hello, server !--------------------------->Android");
+//                socketClient.send("hello, server !--------------------------->Android");
 //                socketClient.setHeartBeatMessage("hello, server !--------------------------->Android");
             }
 
             @Override
             public void onDisconnected(SocketClient client) {
+                
+                
+                
                 Log.d("socketTO","onDisconnected.......");
-
+                String error = client.getState().toString();
             }
 
             @Override
             public void onResponse(SocketClient client, @NonNull SocketResponsePacket responsePacket) {
                 Log.d("socketTO","onResponse.......");
+                String responseMsg = responsePacket.getMessage();
+                Log.d("socketTO",responseMsg);
             }
         });
         socketClient.setConnectionTimeout(1000 * 15);
         socketClient.setHeartBeatInterval(1000);
-        socketClient.setRemoteNoReplyAliveTimeout(1000 * 60);
-        socketClient.setCharsetName("UTF-8");
+        socketClient.setRemoteNoReplyAliveTimeout(1000 *5);
+        socketClient.setCharsetName("GBK");
         socketClient.connect();
     }
 }

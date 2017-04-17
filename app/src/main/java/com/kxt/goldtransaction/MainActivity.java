@@ -122,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
         String ip="";
           ip= "192.168.2.179";
         loginBean.setLan_ip(ip);
+        loginBean.setWww_ip(ip);
+        loginBean.setRspCode("");
+        loginBean.setRspMsg("");
+        loginBean.setSerialNo("");
+        loginBean.setSession_key("");
+        loginBean.setUserID("1089117276");
         String loginBeanStr =JSON.toJSONString(loginBean);
         KLog.json(loginBeanStr);
         // 从字符串中得到公钥
@@ -182,8 +188,10 @@ public class MainActivity extends AppCompatActivity {
             public void onConnected(SocketClient client) {
                 Log.d("socketTO","onConnected.......");
                 if(!TextUtils.isEmpty(abcdeStr)){
+//                    socketClient.send(abcdeStr);
+                    socketClient.sendString(abcdeStr);
 //                    socketClient.send(Base64Utils.decode(abcdeStr));
-                    socketClient.sendBytes(Base64Utils.decode(abcdeStr));
+//                    socketClient.sendBytes(Base64Utils.decode(abcdeStr));
                 }
 //                socketClient.send("hello, server !--------------------------->Android");
 //                socketClient.setHeartBeatMessage("hello, server !--------------------------->Android");

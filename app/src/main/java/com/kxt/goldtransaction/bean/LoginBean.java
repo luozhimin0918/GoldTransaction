@@ -27,6 +27,42 @@ public class LoginBean implements Serializable {
 	private String www_ip;
 	private String session_key;
 	private String  ExchCode;
+	private String SerialNo;
+	private String RspCode;
+	private String RspMsg;
+	private String UserID;
+
+	public String getUserID() {
+		return UserID;
+	}
+
+	public void setUserID(String userID) {
+		UserID = userID;
+	}
+
+	public String getRspCode() {
+		return RspCode;
+	}
+
+	public void setRspCode(String rspCode) {
+		RspCode = rspCode;
+	}
+
+	public String getRspMsg() {
+		return RspMsg;
+	}
+
+	public void setRspMsg(String rspMsg) {
+		RspMsg = rspMsg;
+	}
+
+	public String getSerialNo() {
+		return SerialNo;
+	}
+
+	public void setSerialNo(String serialNo) {
+		SerialNo = serialNo;
+	}
 
 	public String getExchCode() {
 		return ExchCode;

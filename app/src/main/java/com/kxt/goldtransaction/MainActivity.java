@@ -129,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
         loginBean.setSession_key("");
         loginBean.setUserID("1089117276");
         String loginBeanStr =JSON.toJSONString(loginBean);
+        loginBeanStr=loginBeanStr.replace("exchCode","ExchCode");
+        loginBeanStr=loginBeanStr.replace("rspCode","RspCode");
+        loginBeanStr=loginBeanStr.replace("serialNo","SerialNo");
+        loginBeanStr=loginBeanStr.replace("rspMsg","RspMsg");
+        loginBeanStr=loginBeanStr.replace("userID","UserID");
         KLog.json(loginBeanStr);
         // 从字符串中得到公钥
         try {

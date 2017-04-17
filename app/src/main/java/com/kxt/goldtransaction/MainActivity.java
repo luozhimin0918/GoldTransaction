@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.kxt.goldtransaction.bean.LoginBean;
 import com.kxt.goldtransaction.util.Base64Utils;
+import com.kxt.goldtransaction.util.DESUtils;
 import com.kxt.goldtransaction.util.NetUtils;
 import com.kxt.goldtransaction.util.RSAUtils;
 import com.socks.library.KLog;
@@ -41,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resultText= (TextView) findViewById(R.id.resultText);
-//        initData();
-        quitLogin();
+        initData();
+//        quitLogin();//退出登录
         initSocket();
     }
 
@@ -50,6 +51,54 @@ public class MainActivity extends AppCompatActivity {
      * 退出登录
      */
     private void quitLogin() {
+        String BBBB="2";
+        String CCCC="C080";
+        String DDDD="          ";
+        String BCD="";
+        int  BCDLength=0;
+        int  MIWENLength=0;
+        String encryStr="";//密文String
+        LoginBean  loginBean =new LoginBean();
+        loginBean.setOper_flag(1);
+        loginBean.setExchCode("C005");
+        String loginBeanStr =JSON.toJSONString(loginBean);
+        KLog.json(loginBeanStr);
+        // 从字符串中得到公钥
+
+        try {
+            encryStr= DESUtils.encrypt(loginBeanStr,DESUtils.SECRETKEY,DESUtils.IV);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+            MIWENLength=Base64Utils.decode(encryStr).length;
+            KLog.d("密文的字节长度："+MIWENLength);
+            KLog.d(encryStr);
+
+
+        BCD=BBBB+CCCC+DDDD;
+        byte[] sd =Base64Utils.decode(BCD);
+        BCDLength=sd.length;
+        KLog.d("BCD的字节长度："+BCD+">>>>"+BCDLength);
+
+        int ZJLeng =BCDLength+MIWENLength;
+
+
+        int ziLeng=String.valueOf(ZJLeng).length();
+        KLog.d("总的字节长度："+ZJLeng+"  "+ziLeng);
+        String  ziStrig="";
+        if(ziLeng<8){
+
+            int l =8-ziLeng;
+            for(int f=0;f<l;f++){
+                ziStrig+="0";
+            }
+            ziStrig+=ZJLeng;
+            KLog.d("表示的8位数："+ziStrig);
+        }
+        abcdeStr=ziStrig+BCD+encryStr;
+
+        KLog.d("abcde："+abcdeStr);
     }
 
     /**

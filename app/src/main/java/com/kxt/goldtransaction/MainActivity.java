@@ -41,10 +41,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resultText= (TextView) findViewById(R.id.resultText);
-        initData();
+//        initData();
+        quitLogin();
         initSocket();
     }
 
+    /**
+     * 退出登录
+     */
+    private void quitLogin() {
+    }
+
+    /**
+     * 登录测试
+     */
     private void initData() {
         String AAAA="";
         String BBBB="1";
@@ -57,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         LoginBean  loginBean =new LoginBean();
         loginBean.setOper_flag(1);
         loginBean.setUser_id("1089117276");
+        loginBean.setExchCode("C004");
         loginBean.setPassword("5ea9144fa6afff4d0559d2f4a6c10eda");
         //判断wifi是否开启
         String ip="";

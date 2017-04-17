@@ -7,4 +7,5 @@ package com.kxt.goldtransaction.util;
 public class Constart {
     public final static String RSAPAD="RSA/ECB/PKCS1Padding";
     public final static String RSA="RSA";
+    public final static String ENCODE="GBK";
 }

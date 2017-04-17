@@ -26,6 +26,15 @@ public class LoginBean implements Serializable {
 	private String lan_ip;
 	private String www_ip;
 	private String session_key;
+	private String  ExchCode;
+
+	public String getExchCode() {
+		return ExchCode;
+	}
+
+	public void setExchCode(String exchCode) {
+		ExchCode = exchCode;
+	}
 
 	public int getOper_flag() {
 		return oper_flag;

@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             // 从文件中得到公钥
-            InputStream jjjj=this.getClass().getClassLoader().getResourceAsStream("assets/"+"rsa_public_key.pem");
+            InputStream jjjj=this.getClass().getClassLoader().getResourceAsStream("assets/"+"rsa_pubic_C080.pem");
             PublicKey publicKey = RSAUtils.loadPublicKey(jjjj);
 
            RSAUtils.printPublicKeyInfo(publicKey);

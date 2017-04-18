@@ -22,6 +22,7 @@ import com.vilyever.socketclient.SocketResponsePacket;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.security.KeyPair;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.io.InputStream;
@@ -155,6 +156,12 @@ public class MainActivity extends AppCompatActivity {
             MIWENLength=encryptBytes.length;
             KLog.d("密文的字节长度："+MIWENLength);
             KLog.d(encryStr);
+/*
+            // 从文件中得到公钥
+            InputStream ppppp=this.getClass().getClassLoader().getResourceAsStream("assets/"+"rsa_private_C080.pem");
+            PrivateKey privateKey = RSAUtils.loadPrivateKey(ppppp);
+           byte[] jiemso  = RSAUtils.deCodeData(encryptBytes,privateKey);
+            KLog.d(Base64Utils.encode(jiemso));*/
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -31,6 +31,15 @@ public class LoginBean implements Serializable {
 	private String RspCode;
 	private String RspMsg;
 	private String UserID;
+	private String rsp_encrypt_mode;
+
+	public String getRsp_encrypt_mode() {
+		return rsp_encrypt_mode;
+	}
+
+	public void setRsp_encrypt_mode(String rsp_encrypt_mode) {
+		this.rsp_encrypt_mode = rsp_encrypt_mode;
+	}
 
 	public String getUserID() {
 		return UserID;

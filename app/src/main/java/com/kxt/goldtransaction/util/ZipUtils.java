@@ -1,6 +1,5 @@
 package com.kxt.goldtransaction.util;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import  java.io.*;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;

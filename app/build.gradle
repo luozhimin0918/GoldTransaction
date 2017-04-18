@@ -35,4 +35,5 @@ dependencies {
     compile 'com.github.zhaokaiqiang.klog:library:0.0.1'
     compile files('libs/gson-2.2.4.jar')
     compile files('libs/alibaba.jar')
+    compile files('libs/sun.misc.BASE64Decoder.jar')
 }

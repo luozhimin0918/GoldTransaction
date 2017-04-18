@@ -19,7 +19,6 @@ import com.socks.library.KLog;
 import com.vilyever.socketclient.SocketClient;
 import com.vilyever.socketclient.SocketResponsePacket;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
@@ -137,6 +136,15 @@ public class MainActivity extends AppCompatActivity {
         loginBeanStr=loginBeanStr.replace("rspMsg","RspMsg");
         loginBeanStr=loginBeanStr.replace("userID","UserID");
         KLog.json(loginBeanStr);
+        try {
+            String  tttt  =DESUtils.encrypt(loginBeanStr,DESUtils.SECRETKEY,DESUtils.IV);
+            KLog.d(tttt);
+            String  ooooo=DESUtils.decrypt(tttt,DESUtils.SECRETKEY,DESUtils.IV);
+            KLog.d(ooooo);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // 从字符串中得到公钥
         byte[] encryptBytes=null;
         try {
@@ -232,6 +240,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("socketTO","onResponse.......");
                 String responseMsg = responsePacket.getMessage();
                 Log.d("socketTO",responseMsg);
+                String  miwen =responseMsg.substring(23);
+//                Log.d("socketTO",miwen);
+                try {
+//                  String  jjjj=  new String(miwen.getBytes(), "ISO-8859-1");
+                    String dd =DESUtils.decrypt(miwen,DESUtils.SECRETKEY,DESUtils.IV);
+                    KLog.d("socketTO",dd);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
         socketClient.setConnectionTimeout(1000 * 15);

@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private static String PUCLIC_KEY="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzdaTCixSKYD80y5KihoqHSjrq5a+qqIXsGJmP34RvQ5xC5GhX8dNyzfAgdYyOWhK/Jz699Xw+zNQXhpPVyTKns6dJlRadUiy1YBQ4/dC1zL5imw3QDRqgx+yT/vD7aBGXUww8wiwwOhGVFrXhVvJHjTNaLyoPOekHK1MNUeSK+HOeTVfY9MPcC/6kEDCxTGnjKgZhYmEATYEL6CKBA0+/wAS6iKJ2xnhoSYhfBEqGv2P/7lGrfhRDzG6JjXYR8s/YlGrzsbkqt8vVTNaGpRKo91H6Lfno3a4P0SfH2WX5jlhXhp7hAj9kNP+ryXA2KTb2JKiyN318p3wAgUK28CCZwIDAQAB";
 
    String abcdeStr="";
+    byte[] abcdeByte=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,13 +123,13 @@ public class MainActivity extends AppCompatActivity {
         //判断wifi是否开启
         String ip="";
           ip= "192.168.2.179";
-        loginBean.setLan_ip(ip);
-        loginBean.setWww_ip(ip);
-        loginBean.setRspCode("");
-        loginBean.setRspMsg("");
+//        loginBean.setLan_ip(ip);
+//        loginBean.setWww_ip(ip);
+//        loginBean.setRspCode("");
+//        loginBean.setRspMsg("");
         loginBean.setSerialNo("");
-        loginBean.setSession_key("");
-        loginBean.setUserID("1089117276");
+//        loginBean.setSession_key("");
+//        loginBean.setUserID("1089117276");
         String loginBeanStr =JSON.toJSONString(loginBean);
         loginBeanStr=loginBeanStr.replace("exchCode","ExchCode");
         loginBeanStr=loginBeanStr.replace("rspCode","RspCode");
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         loginBeanStr=loginBeanStr.replace("userID","UserID");
         KLog.json(loginBeanStr);
         // 从字符串中得到公钥
+        byte[] encryptBytes=null;
         try {
             // 公钥
 //            KeyPair keyPair=RSAUtils.generateRSAKeyPair(RSAUtils.DEFAULT_KEY_SIZE);
@@ -151,11 +153,11 @@ public class MainActivity extends AppCompatActivity {
 
            RSAUtils.printPublicKeyInfo(publicKey);
 //            byte[] encryptBytes=    RSAUtils.encryptByPublicKey(loginBeanStr.getBytes(),publicKey.getEncoded());//直接加密
-            byte[] encryptBytes=RSAUtils.encryptData(loginBeanStr.getBytes(),publicKey);//分成100字节一个个加密
-            encryStr= Base64Utils.encode(encryptBytes);
+             encryptBytes=RSAUtils.encryptData(loginBeanStr.getBytes("GBK"),publicKey);//分成100字节一个个加密
+//            encryStr= Base64Utils.encode(encryptBytes);
             MIWENLength=encryptBytes.length;
             KLog.d("密文的字节长度："+MIWENLength);
-            KLog.d(encryStr);
+//            KLog.d(encryStr);
 /*
             // 从文件中得到公钥
             InputStream ppppp=this.getClass().getClassLoader().getResourceAsStream("assets/"+"rsa_private_C080.pem");
@@ -167,15 +169,20 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         BCD=BBBB+CCCC+DDDD;
-        byte[] sd =Base64Utils.decode(BCD);
-        BCDLength=sd.length;
-        KLog.d("BCD的字节长度："+BCD+">>>>"+BCDLength);
+//        byte[] sd =Base64Utils.decode(BCD);
+        byte[] sd = null;
+        sd = BCD.getBytes();
 
-        int ZJLeng =BCDLength+MIWENLength;
+        abcdeByte =RSAUtils.pingByte(sd,encryptBytes);
+
+        BCDLength=abcdeByte.length;
+        KLog.d("BCDE的字节长度："+">>>>"+BCDLength);
+
+        int ZJLeng =BCDLength;
 
 
-       int ziLeng=String.valueOf(ZJLeng).length();
-        KLog.d("总的字节长度："+ZJLeng+"  "+ziLeng);
+       int ziLeng=String.valueOf(BCDLength).length();
+//        KLog.d("总的字节长度："+ZJLeng+"  "+ziLeng);
         String  ziStrig="";
         if(ziLeng<8){
 
@@ -186,9 +193,10 @@ public class MainActivity extends AppCompatActivity {
             ziStrig+=ZJLeng;
             KLog.d("表示的8位数："+ziStrig);
         }
-        abcdeStr=ziStrig+BCD+encryStr;
+//        abcdeStr=ziStrig+BCD+encryStr;
+        abcdeByte=RSAUtils.pingByte(ziStrig.getBytes(),abcdeByte);
 
-        KLog.d("abcde："+abcdeStr);
+//        KLog.d("abcde："+abcdeStr);
 
     }
 
@@ -199,12 +207,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onConnected(SocketClient client) {
                 Log.d("socketTO","onConnected.......");
-                if(!TextUtils.isEmpty(abcdeStr)){
+//                if(!TextUtils.isEmpty(abcdeStr)){
 //                    socketClient.send(abcdeStr);
-                    socketClient.sendString(abcdeStr);
+                    socketClient.send(abcdeByte);
+//                    socketClient.sendString(abcdeStr);
 //                    socketClient.send(Base64Utils.decode(abcdeStr));
 //                    socketClient.sendBytes(Base64Utils.decode(abcdeStr));
-                }
+//                }
 //                socketClient.send("hello, server !--------------------------->Android");
 //                socketClient.setHeartBeatMessage("hello, server !--------------------------->Android");
             }

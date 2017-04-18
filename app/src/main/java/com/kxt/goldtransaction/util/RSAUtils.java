@@ -279,4 +279,12 @@ public class RSAUtils {
             throw new Exception("私钥数据为空");
         }
     }
+
+    public static byte[] pingByte(byte[]  bytesA,byte[] bytesB){
+        byte[] data3 = new byte[bytesA.length+bytesB.length];
+        System.arraycopy(bytesA,0,data3,0,bytesA.length);
+        System.arraycopy(bytesB,0,data3,bytesA.length,bytesB.length);
+        return data3;
+
+    }
 }

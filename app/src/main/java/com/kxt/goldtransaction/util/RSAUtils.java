@@ -12,6 +12,7 @@ import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.io.InputStream;
 import java.io.IOException;
@@ -199,6 +200,83 @@ public class RSAUtils {
         {
             e.printStackTrace();
             return null;
+        }
+    }
+    /**
+     * 用私钥解密 <br>
+     * 由于RSA算法对加密的内容长度有限制，本系统采取每100位长度加密一次，
+     * 得到的结果为128位密文
+     * ，然后将128位的密文拼在一起，形成最终的密文。
+     * 解析时需要每取128位密文解密，然后将解密的内容拼在一起。
+     *
+     *            需加密数据的byte数据
+     *            私钥
+     * @return 解密后的byte型数据
+     */
+    public static byte[] deCodeData(byte[] src, PrivateKey privateKey) throws IOException,GeneralSecurityException
+    {
+        try
+        {
+            Cipher cipher = Cipher.getInstance(RSAPAD);
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+            ByteArrayOutputStream byteArrayOutputStream =new ByteArrayOutputStream();
+            for(int i=0;i<src.length;i=i+128){
+                byte[] temp =new byte[128];
+                System.arraycopy(src,i,temp,0,temp.length);
+                byteArrayOutputStream.write( cipher.doFinal(temp));
+            }
+            return byteArrayOutputStream.toByteArray();
+        } catch (Exception e)
+        {
+            return null;
+        }
+    }
+    /**
+     * 从文件中加载私钥
+     *
+     *            私钥文件名
+     * @return 是否成功
+     * @throws Exception
+     */
+    public static PrivateKey loadPrivateKey(InputStream in) throws Exception
+    {
+        try
+        {
+            return loadPrivateKey(readKey(in));
+        } catch (IOException e)
+        {
+            throw new Exception("私钥数据读取错误");
+        } catch (NullPointerException e)
+        {
+            throw new Exception("私钥输入流为空");
+        }
+    }
+    /**
+     * 从字符串中加载私钥<br>
+     * 加载时使用的是PKCS8EncodedKeySpec（PKCS#8编码的Key指令）。
+     *
+     * @param privateKeyStr
+     * @return
+     * @throws Exception
+     */
+    public static PrivateKey loadPrivateKey(String privateKeyStr) throws Exception
+    {
+        try
+        {
+            byte[] buffer = Base64Utils.decode(privateKeyStr);
+            // X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(buffer);
+            KeyFactory keyFactory = KeyFactory.getInstance(RSA);
+            return (RSAPrivateKey) keyFactory.generatePrivate(keySpec);
+        } catch (NoSuchAlgorithmException e)
+        {
+            throw new Exception("无此算法");
+        } catch (InvalidKeySpecException e)
+        {
+            throw new Exception("私钥非法");
+        } catch (NullPointerException e)
+        {
+            throw new Exception("私钥数据为空");
         }
     }
 }

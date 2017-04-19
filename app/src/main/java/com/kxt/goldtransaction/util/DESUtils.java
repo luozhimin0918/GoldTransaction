@@ -5,9 +5,11 @@ import android.util.Base64;
 import java.security.Key;
 
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
+import Decoder.BASE64Decoder;
 
 /**
  * Created by Administrator on 2017/4/17.
@@ -37,6 +39,24 @@ public class DESUtils {
 
         return new String(decryptData, Constart.ENCODE);
     }
+    public static String decryptExpen(String encryptText,String secretKey,String iv) throws Exception {
+        Key deskey = null;
+        DESedeKeySpec spec = new DESedeKeySpec(secretKey.getBytes());
+        SecretKeyFactory keyfactory = SecretKeyFactory.getInstance("desede");
+        deskey = keyfactory.generateSecret(spec);
+        Cipher cipher = Cipher.getInstance("desede/CBC/PKCS5Padding");
+        IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
+        cipher.init(Cipher.DECRYPT_MODE, deskey, ips);
+
+//        byte[] decordedValue = Base64.decode(encryptText.getBytes(), Base64.DEFAULT);
+        byte[] tmpt;
+//        tmpt = Base64.decode(encryptText.getBytes("GBK"), Base64.DEFAULT);
+        tmpt = encryptText.getBytes("GBK");
+        byte[] decryptData = cipher.doFinal(tmpt);
+
+        return new String(decryptData, Constart.ENCODE);
+    }
+
 
 
     /**

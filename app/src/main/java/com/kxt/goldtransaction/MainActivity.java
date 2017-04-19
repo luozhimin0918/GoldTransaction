@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 //        loginBean.setRspMsg("");
         loginBean.setSerialNo("");
 //        loginBean.setSession_key("");
-//        loginBean.setUserID("1089117276");
+        loginBean.setUserID("1089117276");
         String loginBeanStr =JSON.toJSONString(loginBean);
         loginBeanStr=loginBeanStr.replace("exchCode","ExchCode");
         loginBeanStr=loginBeanStr.replace("rspCode","RspCode");
@@ -239,12 +239,13 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(SocketClient client, @NonNull SocketResponsePacket responsePacket) {
                 Log.d("socketTO","onResponse.......");
                 String responseMsg = responsePacket.getMessage();
-                Log.d("socketTO",responseMsg);
+                KLog.d("socketTO",responseMsg);
                 String  miwen =responseMsg.substring(23);
-//                Log.d("socketTO",miwen);
+                KLog.d("socketTO",miwen);
                 try {
-//                  String  jjjj=  new String(miwen.getBytes(), "ISO-8859-1");
-                    String dd =DESUtils.decrypt(miwen,DESUtils.SECRETKEY,DESUtils.IV);
+                  byte[]   jjjj=  miwen.getBytes();
+                    KLog.d("socketTO",Base64Utils.encode(jjjj));
+                    String dd =DESUtils.decryptExpen(miwen,DESUtils.SECRETKEY,DESUtils.IV);
                     KLog.d("socketTO",dd);
                 } catch (Exception e) {
                     e.printStackTrace();

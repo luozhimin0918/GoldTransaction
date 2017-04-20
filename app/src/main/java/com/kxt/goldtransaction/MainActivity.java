@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
      * 登录测试
      */
     private void initData() {
-        String AAAA="";
         String BBBB="1";
         String CCCC="C080";
         String DDDD="          ";
@@ -212,7 +211,6 @@ public class MainActivity extends AppCompatActivity {
            RSAUtils.printPublicKeyInfo(publicKey);
 //            byte[] encryptBytes=    RSAUtils.encryptByPublicKey(loginBeanStr.getBytes(),publicKey.getEncoded());//直接加密
              encryptBytes=RSAUtils.encryptData(loginBeanStr.getBytes("GBK"),publicKey);//分成100字节一个个加密
-//            encryStr= Base64Utils.encode(encryptBytes);
             MIWENLength=encryptBytes.length;
             KLog.d("密文的字节长度："+MIWENLength);
 //            KLog.d(encryStr);
@@ -227,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         BCD=BBBB+CCCC+DDDD;
-//        byte[] sd =Base64Utils.decode(BCD);
         byte[] sd = null;
         sd = BCD.getBytes();
 
@@ -240,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
 
 
        int ziLeng=String.valueOf(BCDLength).length();
-//        KLog.d("总的字节长度："+ZJLeng+"  "+ziLeng);
         String  ziStrig="";
         if(ziLeng<8){
 
@@ -251,10 +247,10 @@ public class MainActivity extends AppCompatActivity {
             ziStrig+=ZJLeng;
             KLog.d("表示的8位数："+ziStrig);
         }
-//        abcdeStr=ziStrig+BCD+encryStr;
+        abcdeStr=ziStrig+BCD+encryStr;
         abcdeByte=RSAUtils.pingByte(ziStrig.getBytes(),abcdeByte);
 
-//        KLog.d("abcde："+abcdeStr);
+        KLog.d("abcde："+abcdeStr);
 
     }
 
@@ -265,15 +261,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onConnected(SocketClient client) {
                 Log.d("socketTO","onConnected.......");
-//                if(!TextUtils.isEmpty(abcdeStr)){
-//                    socketClient.send(abcdeStr);
                     socketClient.send(abcdeByte);
-//                    socketClient.sendString(abcdeStr);
-//                    socketClient.send(Base64Utils.decode(abcdeStr));
-//                    socketClient.sendBytes(Base64Utils.decode(abcdeStr));
-//                }
-//                socketClient.send("hello, server !--------------------------->Android");
-//                socketClient.setHeartBeatMessage("hello, server !--------------------------->Android");
             }
 
             @Override

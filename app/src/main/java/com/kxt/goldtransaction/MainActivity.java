@@ -12,7 +12,9 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.kxt.goldtransaction.bean.LoginBean;
 import com.kxt.goldtransaction.util.Base64Utils;
+import com.kxt.goldtransaction.util.Ci;
 import com.kxt.goldtransaction.util.DESUtils;
+import com.kxt.goldtransaction.util.DataPacket;
 import com.kxt.goldtransaction.util.NetUtils;
 import com.kxt.goldtransaction.util.RSAUtils;
 import com.socks.library.KLog;
@@ -20,11 +22,14 @@ import com.vilyever.socketclient.SocketClient;
 import com.vilyever.socketclient.SocketResponsePacket;
 
 
+import java.io.IOException;
+import java.net.Socket;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.io.InputStream;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +50,60 @@ public class MainActivity extends AppCompatActivity {
         resultText= (TextView) findViewById(R.id.resultText);
         initData();
 //        quitLogin();//退出登录
+        
         initSocket();
+       /* new Thread(new Runnable() {
+            @Override
+            public void run() {
+//                xiongSocke();
+
+            }
+        }).start();*/
+
+    }
+
+
+
+    private void xiongSocke() {
+        DataPacket d = new DataPacket();
+        d.put("SerialNo", "");
+        d.put("ExchCode", "C999");
+        d.put("UserID", "1089117276");
+
+        d.put("oper_flag", "1");
+        d.put("rsp_encrypt_mode", "3");
+//        System.out.println(d);
+        KLog.json(d.toString());
+
+        StringBuffer buf = new StringBuffer();
+        buf.append(d.getHeadA());
+        buf.append("0");
+        buf.append("C080");
+        buf.append("          ");
+        buf.append(d.toString());
+//        System.out.println(buf.toString());
+        KLog.d(buf.toString());
+
+        try {
+            Socket socket = null;
+
+                socket = new Socket("117.141.138.101", 41902);
+
+            socket.getOutputStream().write(buf.toString().getBytes());
+            socket.getOutputStream().flush();
+            byte[] b = new byte[1024];
+            socket.getInputStream().read(b);
+//            System.out.println(new String(b).trim());
+            KLog.d(new String(b).trim());
+            int len = Integer.valueOf(new String(Arrays.copyOf(b, 8)));
+            Ci c = new Ci("KH7BJ95FFGF3NGD04824BF80","A6MV6780");
+            byte[] bbb = Arrays.copyOfRange(b, 23,len+8);
+//            System.out.println(new String(c.decrypt(bbb),"GBK"));
+            KLog.d(new String(c.decrypt(bbb),"GBK"));
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -136,15 +194,7 @@ public class MainActivity extends AppCompatActivity {
         loginBeanStr=loginBeanStr.replace("rspMsg","RspMsg");
         loginBeanStr=loginBeanStr.replace("userID","UserID");
         KLog.json(loginBeanStr);
-        try {
-            String  tttt  =DESUtils.encrypt(loginBeanStr,DESUtils.SECRETKEY,DESUtils.IV);
-            KLog.d(tttt);
-            String  ooooo=DESUtils.decrypt(tttt,DESUtils.SECRETKEY,DESUtils.IV);
-            KLog.d(ooooo);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         // 从字符串中得到公钥
         byte[] encryptBytes=null;
         try {
@@ -240,13 +290,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("socketTO","onResponse.......");
                 String responseMsg = responsePacket.getMessage();
                 KLog.d("socketTO",responseMsg);
-                String  miwen =responseMsg.substring(23);
-                KLog.d("socketTO",miwen);
-                try {
-                  byte[]   jjjj=  miwen.getBytes();
-                    KLog.d("socketTO",Base64Utils.encode(jjjj));
-                    String dd =DESUtils.decryptExpen(miwen,DESUtils.SECRETKEY,DESUtils.IV);
-                    KLog.d("socketTO",dd);
+
+               try {
+
+
+                    byte[]  bb=responsePacket.getData();
+
+                    int len = Integer.valueOf(new String(Arrays.copyOf(bb, 8)));
+                    Ci c = new Ci("KH7BJ95FFGF3NGD04824BF80","A6MV6780");
+                    byte[] bbb = Arrays.copyOfRange(bb, 23,len+8);
+                    KLog.json(new String(c.decrypt(bbb),"GBK"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

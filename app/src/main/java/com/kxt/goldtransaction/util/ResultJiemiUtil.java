@@ -28,6 +28,20 @@ public class ResultJiemiUtil {
     public String JiemiGo(){
         String jiemiStr="";
         switch (this.Bstr){
+            case "6"://待印证
+                try {
+
+                    int len = Integer.valueOf(new String(Arrays.copyOf(this.result, 8)));
+                    Ci c = new Ci();
+                    byte[] bbb = Arrays.copyOfRange(this.result, 23,len+8);
+
+                    bbb=c.decrypt(bbb);
+                    bbb=ZipUtils.unGZip(bbb);
+                    jiemiStr=new String(bbb,"GBK");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                break;
             case "3":
 
                 try {
@@ -39,7 +53,9 @@ public class ResultJiemiUtil {
                     e.printStackTrace();
                 }
                 break;
-            case "1":
+            case "2":
+                break;
+            case "1"://待印证
 
                 try {
                     InputStream jjjj=this.getClass().getClassLoader().getResourceAsStream("assets/"+"rsa_private_C0805.pem");

@@ -42,6 +42,17 @@ public class ResultJiemiUtil {
                     e.printStackTrace();
                 }
                 break;
+            case "4":
+                int len4 = Integer.valueOf(new String(Arrays.copyOf(this.result, 8)));
+                byte[] bbb4 = Arrays.copyOfRange(this.result, 23,len4+8);
+
+                try {
+                    byte[]  jjj=ZipUtils.unGZip(bbb4);
+                    jiemiStr=new String(jjj,"GBK");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                break;
             case "3":
 
                 try {

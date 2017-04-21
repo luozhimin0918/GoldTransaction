@@ -1,5 +1,6 @@
 package com.kxt.goldtransaction.bean;
 
+import com.kxt.goldtransaction.util.Ci;
 import com.kxt.goldtransaction.util.RSAUtils;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -70,6 +71,18 @@ public class LoginBean implements Serializable {
 		byte[] res=new byte[1024*4];
 
 		switch (miFlag){
+			case "3":
+				try {
+					byte[]  EEe =jsonString.getBytes("GBK");
+					Ci ci=new Ci();
+					res =ci.encrypt(EEe);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case "2":
+				break;
             case "1":
                 // 从文件中得到公钥
 

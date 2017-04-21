@@ -21,8 +21,12 @@ public class Ci {
     private IvParameterSpec iv;
     private Cipher des;
     private SecretKey deskey;
+    private   String key;
+    private  String ivStr;
+    public Ci() {
 
-    public Ci(String key, String ivStr) {
+        this.key ="KH7BJ95FFGF3NGD04824BF80";
+        this.ivStr="A6MV6780";
         try {
             des = Cipher.getInstance("desede/CBC/PKCS5Padding");
             iv = new IvParameterSpec(ivStr.getBytes());

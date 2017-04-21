@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void  initDataBean(){
 
-        UtilBCD utilBcd=new UtilBCD("0","C080","          ");
+        UtilBCD utilBcd=new UtilBCD("3","C080","          ");
         LoginBean loginBean=new LoginBean();
         //报文头
         loginBean.setExchCode("C999");
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 //            System.out.println(new String(b).trim());
             KLog.d(new String(b).trim());
             int len = Integer.valueOf(new String(Arrays.copyOf(b, 8)));
-            Ci c = new Ci("KH7BJ95FFGF3NGD04824BF80","A6MV6780");
+            Ci c = new Ci();
             byte[] bbb = Arrays.copyOfRange(b, 23,len+8);
 //            System.out.println(new String(c.decrypt(bbb),"GBK"));
             KLog.d(new String(c.decrypt(bbb),"GBK"));
@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
                     byte[]  bb=responsePacket.getData();
 
                     int len = Integer.valueOf(new String(Arrays.copyOf(bb, 8)));
-                    Ci c = new Ci("KH7BJ95FFGF3NGD04824BF80","A6MV6780");
+                    Ci c = new Ci();
                     byte[] bbb = Arrays.copyOfRange(bb, 23,len+8);
                     KLog.json(new String(c.decrypt(bbb),"GBK"));
                 } catch (Exception e) {

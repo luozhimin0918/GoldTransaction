@@ -65,13 +65,13 @@ public class MainActivity extends AppCompatActivity {
     }
     private void  initDataBean(){
 
-        UtilBCD utilBcd=new UtilBCD("6","C080","          ");//1100095119
+        UtilBCD utilBcd=new UtilBCD("1","C080","          ");//1100095119
 //        Ci.setHuihuaKey("738042001243335486161260");
         LoginBean loginBean=new LoginBean();
         //报文头
         loginBean.setExchCode("C999");
         loginBean.setUserID("1089117276");
-        loginBean.setRsp_encrypt_mode("3");
+        loginBean.setRsp_encrypt_mode("0");
         loginBean.setSerialNo("");
         //报文体
         loginBean.setOper_flag(1);

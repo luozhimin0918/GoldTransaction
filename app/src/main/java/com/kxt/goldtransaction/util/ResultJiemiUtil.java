@@ -2,7 +2,9 @@ package com.kxt.goldtransaction.util;
 
 import com.socks.library.KLog;
 
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.PrivateKey;
 import java.util.Arrays;
 
 /**
@@ -14,12 +16,14 @@ public class ResultJiemiUtil {
     private  byte[] result;
     private String  responseMsg;
     private String Bstr;
+    private String Estr;
 
     public ResultJiemiUtil(String responseMsg,byte[] result) {
 
         this.result=result;
         this.responseMsg=responseMsg;
         this.Bstr=responseMsg.substring(8,9);
+        this.Estr=this.responseMsg.substring(23);
     }
     public String JiemiGo(){
         String jiemiStr="";
@@ -36,8 +40,18 @@ public class ResultJiemiUtil {
                 }
                 break;
             case "1":
+
+                try {
+                    InputStream jjjj=this.getClass().getClassLoader().getResourceAsStream("assets/"+"rsa_private_C0805.pem");
+                    PrivateKey publicKey = RSAUtils.loadPrivateKey(jjjj);
+                    byte[]  priByteArr=RSAUtils.deCodeData(Estr.getBytes(),publicKey);//分成100字节一个个加密
+                    jiemiStr=new String(priByteArr,"GBK");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case "0":
+                jiemiStr=Estr;
                 break;
 
         }

@@ -35,6 +35,18 @@ public class Ci {
             e.printStackTrace();
         }
     }
+    public Ci(String key) {
+
+        this.key =key;
+        this.ivStr="A6MV6780";
+        try {
+            des = Cipher.getInstance("desede/CBC/PKCS5Padding");
+            iv = new IvParameterSpec(ivStr.getBytes());
+            deskey = new SecretKeySpec(key.getBytes(), "desede");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public byte[] encrypt( byte[] M) {
         return op(Cipher.ENCRYPT_MODE, M);

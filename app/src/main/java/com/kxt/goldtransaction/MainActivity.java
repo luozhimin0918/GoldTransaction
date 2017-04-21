@@ -17,6 +17,7 @@ import com.kxt.goldtransaction.util.DESUtils;
 import com.kxt.goldtransaction.util.DataPacket;
 import com.kxt.goldtransaction.util.NetUtils;
 import com.kxt.goldtransaction.util.RSAUtils;
+import com.kxt.goldtransaction.util.ResultJiemiUtil;
 import com.kxt.goldtransaction.util.UtilBCD;
 import com.socks.library.KLog;
 import com.vilyever.socketclient.SocketClient;
@@ -64,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void  initDataBean(){
 
-        UtilBCD utilBcd=new UtilBCD("3","C080","          ");
+        UtilBCD utilBcd=new UtilBCD("6","C080","          ");//1100095119
+//        Ci.setHuihuaKey("738042001243335486161260");
         LoginBean loginBean=new LoginBean();
         //报文头
         loginBean.setExchCode("C999");
@@ -321,19 +323,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(SocketClient client, @NonNull SocketResponsePacket responsePacket) {
-                Log.d("socketTO","onResponse.......");
+                KLog.d("socketTO","onResponse.......");
                 String responseMsg = responsePacket.getMessage();
                 KLog.d("socketTO",responseMsg);
 
                try {
 
 
-                    byte[]  bb=responsePacket.getData();
+                   ResultJiemiUtil resuUtil =new ResultJiemiUtil(responseMsg,responsePacket.getData());
+                  String EstrJson = resuUtil.JiemiGo();
+                   KLog.json("socketTO",EstrJson);
 
-                    int len = Integer.valueOf(new String(Arrays.copyOf(bb, 8)));
-                    Ci c = new Ci();
-                    byte[] bbb = Arrays.copyOfRange(bb, 23,len+8);
-                    KLog.json(new String(c.decrypt(bbb),"GBK"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

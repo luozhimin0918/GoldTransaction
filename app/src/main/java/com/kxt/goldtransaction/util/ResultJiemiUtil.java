@@ -28,13 +28,25 @@ public class ResultJiemiUtil {
     public String JiemiGo(){
         String jiemiStr="";
         switch (this.Bstr){
-            case "6"://待印证
+            case "6":
                 try {
 
                     int len = Integer.valueOf(new String(Arrays.copyOf(this.result, 8)));
                     Ci c = new Ci();
                     byte[] bbb = Arrays.copyOfRange(this.result, 23,len+8);
 
+                    bbb=c.decrypt(bbb);
+                    bbb=ZipUtils.unGZip(bbb);
+                    jiemiStr=new String(bbb,"GBK");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "5":
+                try {
+                    int len = Integer.valueOf(new String(Arrays.copyOf(this.result, 8)));
+                    Ci c = new Ci("huiha");
+                    byte[] bbb = Arrays.copyOfRange(this.result, 23,len+8);
                     bbb=c.decrypt(bbb);
                     bbb=ZipUtils.unGZip(bbb);
                     jiemiStr=new String(bbb,"GBK");

@@ -71,6 +71,8 @@ public class LoginBean implements Serializable {
 		byte[] res=new byte[1024*4];
 
 		switch (miFlag){
+			case "4":
+				break;
 			case "3":
 				try {
 					byte[]  EEe =jsonString.getBytes("GBK");
@@ -82,6 +84,15 @@ public class LoginBean implements Serializable {
 				}
 				break;
 			case "2":
+
+				try {
+					byte[]  EEe =jsonString.getBytes("GBK");
+					Ci ci=new Ci("huihuaId");
+					res =ci.encrypt(EEe);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				break;
             case "1":
                 // 从文件中得到公钥

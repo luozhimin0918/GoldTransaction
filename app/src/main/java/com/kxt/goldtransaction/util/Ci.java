@@ -23,6 +23,8 @@ public class Ci {
     private SecretKey deskey;
     private   String key;
     private  String ivStr;
+    private static String huihuaKey;
+
     public Ci() {
 
         this.key ="KH7BJ95FFGF3NGD04824BF80";
@@ -35,14 +37,14 @@ public class Ci {
             e.printStackTrace();
         }
     }
-    public Ci(String key) {
+    public Ci(String keyTem) {
 
-        this.key =key;
+        this.key =huihuaKey;
         this.ivStr="A6MV6780";
         try {
             des = Cipher.getInstance("desede/CBC/PKCS5Padding");
             iv = new IvParameterSpec(ivStr.getBytes());
-            deskey = new SecretKeySpec(key.getBytes(), "desede");
+            deskey = new SecretKeySpec(this.key.getBytes(), "desede");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,5 +66,13 @@ public class Ci {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String getHuihuaKey() {
+        return huihuaKey;
+    }
+
+    public static void setHuihuaKey(String huihuaKey) {
+        Ci.huihuaKey = huihuaKey;
     }
 }

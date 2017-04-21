@@ -2,6 +2,7 @@ package com.kxt.goldtransaction.bean;
 
 import com.kxt.goldtransaction.util.Ci;
 import com.kxt.goldtransaction.util.RSAUtils;
+import com.kxt.goldtransaction.util.ZipUtils;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -71,7 +72,30 @@ public class LoginBean implements Serializable {
 		byte[] res=new byte[1024*4];
 
 		switch (miFlag){
+			case "6":
+				res= ZipUtils.gZip(jsonStr.getBytes());
+				try {
+					byte[]  EEe =res;
+					Ci ci=new Ci();
+					res =ci.encrypt(EEe);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case "5":
+				  res= ZipUtils.gZip(jsonStr.getBytes());
+				try {
+					byte[]  EEe =res;
+					Ci ci=new Ci("huihuaId");
+					res =ci.encrypt(EEe);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
 			case "4":
+				  res= ZipUtils.gZip(jsonStr.getBytes());
 				break;
 			case "3":
 				try {

@@ -1,5 +1,6 @@
 package com.kxt.goldtransaction.util;
 
+import android.text.TextUtils;
 import android.util.Base64;
 
 import java.security.Key;
@@ -39,7 +40,12 @@ public class Ci {
     }
     public Ci(String keyTem) {
 
-        this.key =huihuaKey;
+        if(TextUtils.isEmpty(huihuaKey)){
+            this.key ="KH7BJ95FFGF3NGD04824BF80";
+        }else {
+            this.key = huihuaKey;
+        }
+
         this.ivStr="A6MV6780";
         try {
             des = Cipher.getInstance("desede/CBC/PKCS5Padding");

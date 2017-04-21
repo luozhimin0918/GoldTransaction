@@ -17,6 +17,7 @@ import com.kxt.goldtransaction.util.DESUtils;
 import com.kxt.goldtransaction.util.DataPacket;
 import com.kxt.goldtransaction.util.NetUtils;
 import com.kxt.goldtransaction.util.RSAUtils;
+import com.kxt.goldtransaction.util.UtilBCD;
 import com.socks.library.KLog;
 import com.vilyever.socketclient.SocketClient;
 import com.vilyever.socketclient.SocketResponsePacket;
@@ -48,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resultText= (TextView) findViewById(R.id.resultText);
-        initData();
+//        initData();
 //        quitLogin();//退出登录
-        
+        initLoginData();
         initSocket();
        /* new Thread(new Runnable() {
             @Override
@@ -62,6 +63,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void initLoginData() {
+        UtilBCD utilBcd=new UtilBCD("1","C080","          ");
+        LoginBean loginBean=new LoginBean();
+        //报文头
+        loginBean.setExchCode("C004");
+        loginBean.setUserID("1089117276");
+        //报文体
+        loginBean.setOper_flag(1);
+        loginBean.setSerialNo("");
+        loginBean.setUser_id("1089117276");
+        loginBean.setPassword("5ea9144fa6afff4d0559d2f4a6c10eda");
+        String jsonE=JSON.toJSONString(loginBean);
+
+        //A区的byte[]
+        String  Astr =loginBean.getHeadA(jsonE,"1");
+        byte[] AByteArry=Astr.getBytes();
+        //BCD区的byte[]
+        byte[] BCDbyteArry =utilBcd.getBCDByteArray();
+        //E区的byte[]
+        byte[]  EByteArry =loginBean.getEMIWen();
+        abcdeByte=RSAUtils.pingByteA_BCD_E(AByteArry,BCDbyteArry,EByteArry);
+
+        KLog.d("Login",Astr+utilBcd.getBCDString());//json打印
+        KLog.json("Login",loginBean.getJsonString());//json打印
+
+
+
+    }
 
 
     private void xiongSocke() {

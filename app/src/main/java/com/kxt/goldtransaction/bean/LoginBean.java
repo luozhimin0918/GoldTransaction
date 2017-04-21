@@ -37,6 +37,15 @@ public class LoginBean implements Serializable {
 	private String UserID;
 	private String rsp_encrypt_mode;
 	private byte[]  EMIWen;
+	private String jsonString;
+
+	public String getJsonString() {
+		return jsonString;
+	}
+
+	public void setJsonString(String jsonString) {
+		this.jsonString = jsonString;
+	}
 
 	public byte[]  getEMIWen() {
 		return EMIWen;
@@ -46,23 +55,23 @@ public class LoginBean implements Serializable {
 		this.EMIWen = EMIWen;
 	}
 
-	public String getHeadA(String jsonStr,int miFlag){
+	public String getHeadA(String jsonStr,String miFlag){
 		int l = this.toJSON(jsonStr,miFlag).length + 15;
 		return String.format("%08d", l);
 	}
 
-	public byte[] toJSON(String jsonStr,int miFlag){
+	public byte[] toJSON(String jsonStr,String miFlag){
 		try {
 			jsonStr=jsonStr.replace("exchCode","ExchCode");
 			jsonStr=jsonStr.replace("rspCode","RspCode");
 			jsonStr=jsonStr.replace("serialNo","SerialNo");
 			jsonStr=jsonStr.replace("rspMsg","RspMsg");
 			jsonStr=jsonStr.replace("userID","UserID");
-
+			this.jsonString=jsonStr;
 			byte[] res=jsonStr.getBytes("GBK");
 
 			switch (miFlag){
-				case 1:
+				case "1":
 					// 从文件中得到公钥
 
 					try {
@@ -73,7 +82,7 @@ public class LoginBean implements Serializable {
 						e.printStackTrace();
 					}
 					break;
-				case 0:
+				case "0":
 					break;
 			}
 			this.EMIWen=res;

@@ -287,4 +287,18 @@ public class RSAUtils {
         return data3;
 
     }
+
+    /**
+     * 拼接A BCD E 的byte[]
+     * @param bytesA
+     * @param bytesBCD
+     * @param bytesE
+     * @return
+     */
+    public static byte[] pingByteA_BCD_E(byte[]  bytesA,byte[] bytesBCD,byte[] bytesE){
+        byte[] data3 = pingByte(bytesBCD,bytesE);
+        data3=pingByte(bytesA,data3);
+        return data3;
+
+    }
 }

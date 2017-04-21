@@ -1,6 +1,10 @@
 package com.kxt.goldtransaction.bean;
 
+import com.kxt.goldtransaction.util.RSAUtils;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.PublicKey;
 
 /**
  * 首界面广告
@@ -32,6 +36,43 @@ public class LoginBean implements Serializable {
 	private String RspMsg;
 	private String UserID;
 	private String rsp_encrypt_mode;
+	public String getHeadA(String jsonStr,int miFlag){
+		int l = this.toJSON(jsonStr,miFlag).length + 15;
+		return String.format("%08d", l);
+	}
+
+	public byte[] toJSON(String jsonStr,int miFlag){
+		try {
+			jsonStr=jsonStr.replace("exchCode","ExchCode");
+			jsonStr=jsonStr.replace("rspCode","RspCode");
+			jsonStr=jsonStr.replace("serialNo","SerialNo");
+			jsonStr=jsonStr.replace("rspMsg","RspMsg");
+			jsonStr=jsonStr.replace("userID","UserID");
+
+			byte[] res=jsonStr.getBytes("GBK");
+
+			switch (miFlag){
+				case 1:
+					// 从文件中得到公钥
+
+					try {
+						InputStream jjjj=this.getClass().getClassLoader().getResourceAsStream("assets/"+"rsa_pubic_C080.pem");
+						PublicKey publicKey = RSAUtils.loadPublicKey(jjjj);
+						res=RSAUtils.encryptData(res,publicKey);//分成100字节一个个加密
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					break;
+				case 0:
+					break;
+			}
+
+			return res;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public String getRsp_encrypt_mode() {
 		return rsp_encrypt_mode;

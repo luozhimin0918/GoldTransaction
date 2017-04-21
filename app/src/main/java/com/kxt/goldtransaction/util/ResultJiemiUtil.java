@@ -65,6 +65,14 @@ public class ResultJiemiUtil {
                 }
                 break;
             case "2":
+                try {
+                    int len = Integer.valueOf(new String(Arrays.copyOf(this.result, 8)));
+                    Ci c = new Ci("huiha");
+                    byte[] bbb = Arrays.copyOfRange(this.result, 23,len+8);
+                    jiemiStr=new String(c.decrypt(bbb),"GBK");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "1"://待印证
 

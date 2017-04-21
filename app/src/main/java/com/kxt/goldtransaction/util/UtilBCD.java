@@ -29,4 +29,31 @@ public class UtilBCD {
         return bcdByte;
     }
 
+    public void setBCDString(String BCDString) {
+        this.BCDString = BCDString;
+    }
+
+    public String getBstr() {
+        return Bstr;
+    }
+
+    public void setBstr(String bstr) {
+        Bstr = bstr;
+    }
+
+    public String getCstr() {
+        return Cstr;
+    }
+
+    public void setCstr(String cstr) {
+        Cstr = cstr;
+    }
+
+    public String getDstr() {
+        return Dstr;
+    }
+
+    public void setDstr(String dstr) {
+        Dstr = dstr;
+    }
 }

@@ -61,37 +61,33 @@ public class LoginBean implements Serializable {
 	}
 
 	public byte[] toJSON(String jsonStr,String miFlag){
-		try {
-			jsonStr=jsonStr.replace("exchCode","ExchCode");
-			jsonStr=jsonStr.replace("rspCode","RspCode");
-			jsonStr=jsonStr.replace("serialNo","SerialNo");
-			jsonStr=jsonStr.replace("rspMsg","RspMsg");
-			jsonStr=jsonStr.replace("userID","UserID");
-			this.jsonString=jsonStr;
-			byte[] res=jsonStr.getBytes("GBK");
+		jsonStr=jsonStr.replace("exchCode","ExchCode");
+		jsonStr=jsonStr.replace("rspCode","RspCode");
+		jsonStr=jsonStr.replace("serialNo","SerialNo");
+		jsonStr=jsonStr.replace("rspMsg","RspMsg");
+		jsonStr=jsonStr.replace("userID","UserID");
+		this.jsonString=jsonStr;
+		byte[] res=new byte[1024*4];
 
-			switch (miFlag){
-				case "1":
-					// 从文件中得到公钥
+		switch (miFlag){
+            case "1":
+                // 从文件中得到公钥
 
-					try {
-						InputStream jjjj=this.getClass().getClassLoader().getResourceAsStream("assets/"+"rsa_pubic_C080.pem");
-						PublicKey publicKey = RSAUtils.loadPublicKey(jjjj);
-						res=RSAUtils.encryptData(res,publicKey);//分成100字节一个个加密
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					break;
-				case "0":
-					break;
-			}
-			this.EMIWen=res;
+                try {
+                    InputStream jjjj=this.getClass().getClassLoader().getResourceAsStream("assets/"+"rsa_pubic_C080.pem");
+                    PublicKey publicKey = RSAUtils.loadPublicKey(jjjj);
+                    res=RSAUtils.encryptData(jsonString.getBytes("GBK"),publicKey);//分成100字节一个个加密
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "0":
+                res=jsonString.getBytes();
+                break;
+        }
+		this.EMIWen=res;
 
-			return res;
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return res;
 	}
 
 	public String getRsp_encrypt_mode() {

@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         resultText= (TextView) findViewById(R.id.resultText);
 //        initData();
 //        quitLogin();//退出登录
-        initLoginData();
+        initDataBean();
         initSocket();
        /* new Thread(new Runnable() {
             @Override
@@ -62,22 +62,39 @@ public class MainActivity extends AppCompatActivity {
         }).start();*/
 
     }
+    private void  initDataBean(){
 
-    private void initLoginData() {
-        UtilBCD utilBcd=new UtilBCD("1","C080","          ");
+        UtilBCD utilBcd=new UtilBCD("0","C080","          ");
         LoginBean loginBean=new LoginBean();
         //报文头
+        loginBean.setExchCode("C999");
+        loginBean.setUserID("1089117276");
+        loginBean.setRsp_encrypt_mode("3");
+        loginBean.setSerialNo("");
+        //报文体
+        loginBean.setOper_flag(1);
+
+
+     /*
+        UtilBCD utilBcd=new UtilBCD("1","C080","          ");
+        LoginBean loginBean=new LoginBean();
+       //报文头
         loginBean.setExchCode("C004");
         loginBean.setUserID("1089117276");
         //报文体
         loginBean.setOper_flag(1);
         loginBean.setSerialNo("");
         loginBean.setUser_id("1089117276");
-        loginBean.setPassword("5ea9144fa6afff4d0559d2f4a6c10eda");
+        loginBean.setPassword("5ea9144fa6afff4d0559d2f4a6c10eda");*/
+        initLoginData(loginBean,utilBcd);
+    }
+
+    private void initLoginData(LoginBean loginBean,UtilBCD utilBcd) {
+
         String jsonE=JSON.toJSONString(loginBean);
 
         //A区的byte[]
-        String  Astr =loginBean.getHeadA(jsonE,"1");
+        String  Astr =loginBean.getHeadA(jsonE,utilBcd.getBstr());
         byte[] AByteArry=Astr.getBytes();
         //BCD区的byte[]
         byte[] BCDbyteArry =utilBcd.getBCDByteArray();

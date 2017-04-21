@@ -36,6 +36,16 @@ public class LoginBean implements Serializable {
 	private String RspMsg;
 	private String UserID;
 	private String rsp_encrypt_mode;
+	private byte[]  EMIWen;
+
+	public byte[]  getEMIWen() {
+		return EMIWen;
+	}
+
+	public void setEMIWen(byte[] EMIWen) {
+		this.EMIWen = EMIWen;
+	}
+
 	public String getHeadA(String jsonStr,int miFlag){
 		int l = this.toJSON(jsonStr,miFlag).length + 15;
 		return String.format("%08d", l);
@@ -66,6 +76,7 @@ public class LoginBean implements Serializable {
 				case 0:
 					break;
 			}
+			this.EMIWen=res;
 
 			return res;
 		} catch (UnsupportedEncodingException e) {

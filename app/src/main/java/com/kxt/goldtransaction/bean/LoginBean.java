@@ -41,6 +41,7 @@ public class LoginBean implements Serializable {
 	private byte[]  EMIWen;
 	private String jsonString;
 	private String mobile_phone;
+	private String prod_code;
 
 	public String getJsonString() {
 		return jsonString;
@@ -240,5 +241,13 @@ public class LoginBean implements Serializable {
 
 	public void setMobile_phone(String mobile_phone) {
 		this.mobile_phone = mobile_phone;
+	}
+
+	public String getProd_code() {
+		return prod_code;
+	}
+
+	public void setProd_code(String prod_code) {
+		this.prod_code = prod_code;
 	}
 }

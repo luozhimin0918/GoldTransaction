@@ -77,8 +77,23 @@ public class MainActivity extends AppCompatActivity {
         loginBean.setOper_flag(1);
 */
 
-        //客户登出[C005]
+      //  合约代码查询[C101]
+
         UtilBCD utilBcd=new UtilBCD("2","C080","1100382617");// A=2 3DES算法（会话密钥）。  会话ID session_id
+        Ci.setHuihuaKey("848831292487389350163121");//解密都要 会话密钥 session_key
+        LoginBean loginBean=new LoginBean();
+        //报文头
+        loginBean.setSerialNo("");
+        loginBean.setExchCode("C101");
+        loginBean.setUserID("1089117276");//必传报文头
+        //报文体
+        loginBean.setOper_flag(1);
+        // "prod_code": "Au99.5", "prod_code": "518800",  "prod_code": "518880",
+        loginBean.setProd_code("Au99.5");
+
+
+        //客户登出[C005]
+      /*  UtilBCD utilBcd=new UtilBCD("2","C080","1100382617");// A=2 3DES算法（会话密钥）。  会话ID session_id
         Ci.setHuihuaKey("848831292487389350163121");//解密都要 会话密钥 session_key
         LoginBean loginBean=new LoginBean();
         //报文头
@@ -86,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         loginBean.setExchCode("C005");
         loginBean.setUserID("1089117276");//必传报文头
         //报文体
-        loginBean.setOper_flag(1);
+        loginBean.setOper_flag(1);*/
 
 
 

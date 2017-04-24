@@ -15,6 +15,7 @@ import com.kxt.goldtransaction.util.Base64Utils;
 import com.kxt.goldtransaction.util.Ci;
 import com.kxt.goldtransaction.util.DESUtils;
 import com.kxt.goldtransaction.util.DataPacket;
+import com.kxt.goldtransaction.util.MD5Tools;
 import com.kxt.goldtransaction.util.NetUtils;
 import com.kxt.goldtransaction.util.RSAUtils;
 import com.kxt.goldtransaction.util.ResultJiemiUtil;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
       //  合约代码查询[C101]
 
-        UtilBCD utilBcd=new UtilBCD("2","C080","1100382617");// A=2 3DES算法（会话密钥）。  会话ID session_id
+      /*  UtilBCD utilBcd=new UtilBCD("2","C080","1100382617");// A=2 3DES算法（会话密钥）。  会话ID session_id
         Ci.setHuihuaKey("848831292487389350163121");//解密都要 会话密钥 session_key
         LoginBean loginBean=new LoginBean();
         //报文头
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         //报文体
         loginBean.setOper_flag(1);
         // "prod_code": "Au99.5", "prod_code": "518800",  "prod_code": "518880",
-        loginBean.setProd_code("Au99.5");
+        loginBean.setProd_code("Au99.5");*/
 
 
         //客户登出[C005]
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //登录C004
-     /*   UtilBCD utilBcd=new UtilBCD("1","C080","          ");
+       UtilBCD utilBcd=new UtilBCD("1","C080","          ");
         LoginBean loginBean=new LoginBean();
        //报文头
         loginBean.setExchCode("C004");
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         loginBean.setOper_flag(1);
         loginBean.setSerialNo("");
         loginBean.setUser_id("1089117276");
-        loginBean.setPassword("5ea9144fa6afff4d0559d2f4a6c10eda");*/
+        loginBean.setPassword(MD5Tools.MD5("891008"));
         initLoginData(loginBean,utilBcd);
     }
 

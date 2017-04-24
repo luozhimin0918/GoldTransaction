@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void  initDataBean(){
 
-        UtilBCD utilBcd=new UtilBCD("1","C080","          ");//1100095119
+     /*   UtilBCD utilBcd=new UtilBCD("1","C080","          ");//1100095119
 //        Ci.setHuihuaKey("738042001243335486161260");
         LoginBean loginBean=new LoginBean();
         //报文头
@@ -75,10 +75,25 @@ public class MainActivity extends AppCompatActivity {
         loginBean.setSerialNo("");
         //报文体
         loginBean.setOper_flag(1);
+*/
+
+        //客户号查询
+        UtilBCD utilBcd=new UtilBCD("1","C080","1100382570");// A 为rsa加密   会话ID session_id
+        Ci.setHuihuaKey("038909622408469276806511");//解密都要 会话密钥 session_key
+        LoginBean loginBean=new LoginBean();
+        //报文头
+        loginBean.setSerialNo("");
+        loginBean.setExchCode("C001");
+        loginBean.setUserID("1089117276");//必传报文头
+        //报文体
+        loginBean.setOper_flag(3);
+        loginBean.setMobile_phone("18679039532");
 
 
-     /*
-        UtilBCD utilBcd=new UtilBCD("1","C080","          ");
+
+
+        //登录C004
+     /*   UtilBCD utilBcd=new UtilBCD("1","C080","          ");
         LoginBean loginBean=new LoginBean();
        //报文头
         loginBean.setExchCode("C004");

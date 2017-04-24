@@ -40,6 +40,7 @@ public class LoginBean implements Serializable {
 	private String rsp_encrypt_mode;
 	private byte[]  EMIWen;
 	private String jsonString;
+	private String mobile_phone;
 
 	public String getJsonString() {
 		return jsonString;
@@ -232,5 +233,12 @@ public class LoginBean implements Serializable {
 
 	public void setSession_key(String session_key) {
 		this.session_key = session_key;
+	}
+	public String getMobile_phone() {
+		return mobile_phone;
+	}
+
+	public void setMobile_phone(String mobile_phone) {
+		this.mobile_phone = mobile_phone;
 	}
 }

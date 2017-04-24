@@ -37,6 +37,6 @@ dependencies {
     compile files('libs/alibaba.jar')
     compile files('libs/sun.misc.BASE64Decoder.jar')
     compile 'com.github.luozhimin0918.LuoComLibJitPack:FlycoTabLayout_Lib:m1.0.21'
-    compile 'com.github.luozhimin0918.LuoComLibJitPack:publiclibrary:m1.0.21'
     compile 'com.github.luozhimin0918.LuoComLibJitPack:comlib:m1.0.21'
+    compile 'com.github.luozhimin0918:LuoComLibJitPack_Two:v_1.0.5'
 }

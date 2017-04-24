@@ -77,8 +77,21 @@ public class MainActivity extends AppCompatActivity {
         loginBean.setOper_flag(1);
 */
 
+        //客户登出[C005]
+        UtilBCD utilBcd=new UtilBCD("2","C080","1100382617");// A=2 3DES算法（会话密钥）。  会话ID session_id
+        Ci.setHuihuaKey("848831292487389350163121");//解密都要 会话密钥 session_key
+        LoginBean loginBean=new LoginBean();
+        //报文头
+        loginBean.setSerialNo("");
+        loginBean.setExchCode("C005");
+        loginBean.setUserID("1089117276");//必传报文头
+        //报文体
+        loginBean.setOper_flag(1);
+
+
+
         //客户号查询
-        UtilBCD utilBcd=new UtilBCD("1","C080","1100382570");// A 为rsa加密   会话ID session_id
+      /*  UtilBCD utilBcd=new UtilBCD("1","C080","1100382570");// A 为rsa加密   会话ID session_id
         Ci.setHuihuaKey("038909622408469276806511");//解密都要 会话密钥 session_key
         LoginBean loginBean=new LoginBean();
         //报文头
@@ -87,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         loginBean.setUserID("1089117276");//必传报文头
         //报文体
         loginBean.setOper_flag(3);
-        loginBean.setMobile_phone("18679039532");
+        loginBean.setMobile_phone("18679039532");*/
 
 
 

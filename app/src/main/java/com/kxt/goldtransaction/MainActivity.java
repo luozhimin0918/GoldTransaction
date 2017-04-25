@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         //客户号查询
-      /*  UtilBCD utilBcd=new UtilBCD("1","C080","1100382570");// A 为rsa加密   会话ID session_id
-        Ci.setHuihuaKey("038909622408469276806511");//解密都要 会话密钥 session_key
+     /*  UtilBCD utilBcd=new UtilBCD("1","C080","1100411474");// A 为rsa加密   会话ID session_id
+        Ci.setHuihuaKey("833654944867503232037648");//解密都要 会话密钥 session_key
         LoginBean loginBean=new LoginBean();
         //报文头
         loginBean.setSerialNo("");

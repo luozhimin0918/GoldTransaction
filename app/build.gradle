@@ -39,4 +39,5 @@ dependencies {
     compile 'com.github.luozhimin0918.LuoComLibJitPack:FlycoTabLayout_Lib:m1.0.21'
     compile 'com.github.luozhimin0918.LuoComLibJitPack:comlib:m1.0.21'
     compile 'com.github.luozhimin0918:LuoComLibJitPack_Two:v_1.0.5'
+    compile files('libs/xstream-1.4.7.jar')
 }

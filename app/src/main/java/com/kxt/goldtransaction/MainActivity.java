@@ -1,25 +1,23 @@
 package com.kxt.goldtransaction;
 
-import android.net.wifi.WifiInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
 import com.kxt.goldtransaction.bean.LoginBean;
+import com.kxt.goldtransaction.bean.XmlOpenBean;
 import com.kxt.goldtransaction.util.Base64Utils;
 import com.kxt.goldtransaction.util.Ci;
 import com.kxt.goldtransaction.util.DESUtils;
 import com.kxt.goldtransaction.util.DataPacket;
 import com.kxt.goldtransaction.util.MD5Tools;
-import com.kxt.goldtransaction.util.NetUtils;
 import com.kxt.goldtransaction.util.RSAUtils;
 import com.kxt.goldtransaction.util.ResultJiemiUtil;
 import com.kxt.goldtransaction.util.UtilBCD;
+import com.kxt.goldtransaction.util.XmlUtil;
 import com.socks.library.KLog;
 import com.vilyever.socketclient.SocketClient;
 import com.vilyever.socketclient.SocketResponsePacket;
@@ -27,10 +25,7 @@ import com.vilyever.socketclient.SocketResponsePacket;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.security.KeyPair;
-import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.interfaces.RSAPublicKey;
 import java.io.InputStream;
 import java.util.Arrays;
 
@@ -44,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static String PUCLIC_KEY="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzdaTCixSKYD80y5KihoqHSjrq5a+qqIXsGJmP34RvQ5xC5GhX8dNyzfAgdYyOWhK/Jz699Xw+zNQXhpPVyTKns6dJlRadUiy1YBQ4/dC1zL5imw3QDRqgx+yT/vD7aBGXUww8wiwwOhGVFrXhVvJHjTNaLyoPOekHK1MNUeSK+HOeTVfY9MPcC/6kEDCxTGnjKgZhYmEATYEL6CKBA0+/wAS6iKJ2xnhoSYhfBEqGv2P/7lGrfhRDzG6JjXYR8s/YlGrzsbkqt8vVTNaGpRKo91H6Lfno3a4P0SfH2WX5jlhXhp7hAj9kNP+ryXA2KTb2JKiyN318p3wAgUK28CCZwIDAQAB";
     private String headString="";
-    private String BodyXmlString="<?xml  version=\"1.0\" encoding=\"GBK\"?>\n" +
+    private String BodyXmlString="";
+   /* private String BodyXmlString="<?xml  version=\"1.0\" encoding=\"GBK\"?>\n" +
             "<request>\n" +
             "<head>\n" +
             "<h_exch_code>880110</h_exch_code>\n" +
@@ -64,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             "<is_contain_self>1</is_contain_self>\n" +
             "</record>\n" +
             "</body>\n" +
-            "</request>";
+            "</request>";*/
     private String headAndBody="";
    String abcdeStr="";
     byte[] abcdeByte=null;
@@ -91,10 +87,33 @@ public class MainActivity extends AppCompatActivity {
     private void initOpenZhuanhu() {
         url="113.106.63.156";//开户ip
         prot=47005;//开户端口
-        headString=String.format("%08d", BodyXmlString.length());
-        headAndBody=headString+BodyXmlString;
-        KLog.d(">>>>>>>>>>>",headAndBody);
-        abcdeByte=headAndBody.getBytes();
+
+        XmlOpenBean xmlOpen =new XmlOpenBean();
+        XmlOpenBean.head head =new XmlOpenBean.head();
+        head.setH_bank_no("1111");
+        head.setH_term_type("19");
+        head.setH_exch_code("880110");
+        head.setH_branch_id("B0077001");
+        head.setH_teller_id("C09100");
+        head.setH_teller_id_1("");
+        head.setH_teller_id_2("");
+        head.setH_bk_seq_no("BK3204b43hle9fd723kd84");
+        head.setH_work_date("");
+        head.setH_exch_date("");
+
+
+        XmlOpenBean.body body=new XmlOpenBean.body();
+        XmlOpenBean.body.record record=new XmlOpenBean.body.record();
+        record.setBranch_id("B0077001");
+        record.setIs_contain_self("1");
+        body.setRecord(record);
+        xmlOpen.setBody(body);
+        xmlOpen.setHead(head);
+
+
+       BodyXmlString= XmlUtil.getStringFormBean(xmlOpen);
+        KLog.d(">>>>>>>>>>>",BodyXmlString);
+        abcdeByte=BodyXmlString.getBytes();
     }
 
     private void  initDataBean(){

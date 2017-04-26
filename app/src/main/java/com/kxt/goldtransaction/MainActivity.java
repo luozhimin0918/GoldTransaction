@@ -428,6 +428,9 @@ public class MainActivity extends AppCompatActivity {
                   String EstrJson = resuUtil.JiemiGo();
                    KLog.json("socketTO",EstrJson);
 
+                   XmlOpenBean jjjj =XmlUtil.getStringFormBean(responseMsg);
+                   KLog.json(JSON.toJSONString(jjjj));
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -48,7 +48,24 @@ public class XmlOpenBean implements Serializable {
         private String h_bk_seq_no;
         private String h_work_date;
         private String h_exch_date;
+        private String h_rsp_msg;
+        private String h_rsp_code;
 
+        public String getH_rsp_msg() {
+            return h_rsp_msg;
+        }
+
+        public void setH_rsp_msg(String h_rsp_msg) {
+            this.h_rsp_msg = h_rsp_msg;
+        }
+
+        public String getH_rsp_code() {
+            return h_rsp_code;
+        }
+
+        public void setH_rsp_code(String h_rsp_code) {
+            this.h_rsp_code = h_rsp_code;
+        }
 
         public String getH_exch_code() {
             return h_exch_code;

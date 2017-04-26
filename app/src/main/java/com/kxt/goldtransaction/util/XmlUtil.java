@@ -21,4 +21,12 @@ public class XmlUtil {
         tempBoystr= String.format("%08d", tempBoystr.length())+tempBoystr;
         return  tempBoystr;
     }
+    public static XmlOpenBean getStringFormBean(String xmlOpenStr){
+        XStream xstream2 = new XStream(new DomDriver());
+        xmlOpenStr=xmlOpenStr.replace(headXml,"");
+        xmlOpenStr=xmlOpenStr.substring(8);
+        xstream2.alias("response", XmlOpenBean.class);
+        XmlOpenBean xmlOpenBean = (XmlOpenBean) xstream2.fromXML(xmlOpenStr);
+        return  xmlOpenBean;
+    }
 }

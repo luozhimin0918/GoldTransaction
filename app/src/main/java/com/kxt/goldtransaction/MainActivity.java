@@ -38,12 +38,34 @@ public class MainActivity extends AppCompatActivity {
 
     TextView resultText;
     private SocketClient socketClient;
-    private String url="117.141.138.101";
-    private  int prot=41901;
+    private String url="117.141.138.101";//交易ip
+    private  int prot=41901;//交易端口
     private static String PUCLIC_KEY_TOW ="MIICRzCCAbACCQCEwTrLj/zDfjANBgkqhkiG9w0BAQUFADBoMQswCQYDVQQGEwJDTjELMAkGA1UEChMCSVQxEzARBgNVBAMTCkdlc3NTZXJ2ZXIxEDAOBgNVBAgTB0d1YW5nWGkxEDAOBgNVBAcTB05hbk5pbmcxEzARBgNVBAsTCkdlc3NTZXJ2ZXIwHhcNMTYwOTI3MTA0NjA4WhcNMjYwOTI1MTA0NjA4WjBoMQswCQYDVQQGEwJDTjELMAkGA1UEChMCSVQxEzARBgNVBAMTCkdlc3NTZXJ2ZXIxEDAOBgNVBAgTB0d1YW5nWGkxEDAOBgNVBAcTB05hbk5pbmcxEzARBgNVBAsTCkdlc3NTZXJ2ZXIwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBANzrbkoPp8hIpqlOfuAWVms1f2NxfMnzcyTAo15pGKwlQerYWu8SpWviRDU57K97jfAyxOGApDCjKbMJJh2vPLaSb9VU/OUmwfqpyIKkoW2u3BG3Lr0IBJtosZOw1vfj+zltOZnizRyvnVDj3w+WOIB8jn88glqfmppNYRviavKRAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEAOunehQrYZa9o+sh5qwg2x9rzgZ7EIu8JjiY3IEj2qu4RfuPu2PXbnwA6E+9GrKD3roQX33GmInXVmMlZg/pziYbuHQ3FfRSfjuegSwmWHgnt34LfX63KZoS/4XDTIUOfRoqsXDep1crVptksfvBwdruZ+uEckT8vf7UEAjC2+O8=";
 
     private static String PUCLIC_KEY="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzdaTCixSKYD80y5KihoqHSjrq5a+qqIXsGJmP34RvQ5xC5GhX8dNyzfAgdYyOWhK/Jz699Xw+zNQXhpPVyTKns6dJlRadUiy1YBQ4/dC1zL5imw3QDRqgx+yT/vD7aBGXUww8wiwwOhGVFrXhVvJHjTNaLyoPOekHK1MNUeSK+HOeTVfY9MPcC/6kEDCxTGnjKgZhYmEATYEL6CKBA0+/wAS6iKJ2xnhoSYhfBEqGv2P/7lGrfhRDzG6JjXYR8s/YlGrzsbkqt8vVTNaGpRKo91H6Lfno3a4P0SfH2WX5jlhXhp7hAj9kNP+ryXA2KTb2JKiyN318p3wAgUK28CCZwIDAQAB";
-
+    private String headString="";
+    private String BodyXmlString="<?xml  version=\"1.0\" encoding=\"GBK\"?>\n" +
+            "<request>\n" +
+            "<head>\n" +
+            "<h_exch_code>880110</h_exch_code>\n" +
+            "<h_bank_no>1111</h_bank_no>\n" +
+            "<h_term_type>19</h_term_type>\n"+
+            "<h_branch_id>B0077001</h_branch_id>\n"+
+            "<h_teller_id>C09100</h_teller_id>\n"+
+            "<h_teller_id_1></h_teller_id_1>\n"+
+            "<h_teller_id_2></h_teller_id_2>\n"+
+            "<h_bk_seq_no>BK3204b43hle9fd723kd84</h_bk_seq_no>\n"+
+            "<h_work_date></h_work_date>\n"+
+            "<h_exch_date></h_exch_date>" +
+            "</head>\n" +
+            "<body>\n" +
+            "<record>\n" +
+            "<branch_id>B0077001</branch_id>\n" +
+            "<is_contain_self>1</is_contain_self>\n" +
+            "</record>\n" +
+            "</body>\n" +
+            "</request>";
+    private String headAndBody="";
    String abcdeStr="";
     byte[] abcdeByte=null;
     @Override
@@ -53,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
         resultText= (TextView) findViewById(R.id.resultText);
 //        initData();
 //        quitLogin();//退出登录
-        initDataBean();
+//        initDataBean();
+        initOpenZhuanhu();
         initSocket();
        /* new Thread(new Runnable() {
             @Override
@@ -64,6 +87,16 @@ public class MainActivity extends AppCompatActivity {
         }).start();*/
 
     }
+
+    private void initOpenZhuanhu() {
+        url="113.106.63.156";//开户ip
+        prot=47005;//开户端口
+        headString=String.format("%08d", BodyXmlString.length());
+        headAndBody=headString+BodyXmlString;
+        KLog.d(">>>>>>>>>>>",headAndBody);
+        abcdeByte=headAndBody.getBytes();
+    }
+
     private void  initDataBean(){
 
      /*   UtilBCD utilBcd=new UtilBCD("1","C080","          ");//1100095119
@@ -345,8 +378,6 @@ public class MainActivity extends AppCompatActivity {
         KLog.d("abcde："+abcdeStr);
 
     }
-
-
     private void initSocket() {
         socketClient = new SocketClient(url, prot);
         socketClient.registerSocketDelegate(new SocketClient.SocketDelegate(){
